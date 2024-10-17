@@ -21,7 +21,7 @@
   right: 0;
   bottom: 0;
   overflow: hidden;
-  opacity: 0.25;
+  opacity: 0.2;
   line-height: 1;
   -webkit-text-size-adjust: none;
      -moz-text-size-adjust: none;
@@ -73,13 +73,11 @@
 }
 
 .textLayer ::-moz-selection {
-  background: blue;
-  background: AccentColor;
+  background: rgba(0, 0, 255, 1);
 }
 
 .textLayer ::selection {
-  background: blue;
-  background: AccentColor;
+  background: rgba(0, 0, 255, 1);
 }
 
 /* Avoids https://github.com/mozilla/pdf.js/issues/13840 in Chrome */
@@ -111,20 +109,9 @@
 
 :root {
   --annotation-unfocused-field-background: url("data:image/svg+xml;charset=UTF-8,<svg width='1px' height='1px' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill:rgba(0, 54, 255, 0.13);'/></svg>");
-  --input-focus-border-color: Highlight;
-  --input-focus-outline: 1px solid Canvas;
-  --input-unfocused-border-color: transparent;
-  --input-disabled-border-color: transparent;
-  --input-hover-border-color: black;
 }
 
 @media (forced-colors: active) {
-  :root {
-    --input-focus-border-color: CanvasText;
-    --input-unfocused-border-color: ActiveText;
-    --input-disabled-border-color: GrayText;
-    --input-hover-border-color: Highlight;
-  }
   .annotationLayer .textWidgetAnnotation input:required,
   .annotationLayer .textWidgetAnnotation textarea:required,
   .annotationLayer .choiceWidgetAnnotation select:required,
@@ -185,7 +172,7 @@
 .annotationLayer .buttonWidgetAnnotation.checkBox input,
 .annotationLayer .buttonWidgetAnnotation.radioButton input {
   background-image: var(--annotation-unfocused-field-background);
-  border: 2px solid var(--input-unfocused-border-color);
+  border: 1px solid transparent;
   box-sizing: border-box;
   font: calc(9px * var(--scale-factor)) sans-serif;
   height: 100%;
@@ -220,7 +207,7 @@
 .annotationLayer .buttonWidgetAnnotation.checkBox input[disabled],
 .annotationLayer .buttonWidgetAnnotation.radioButton input[disabled] {
   background: none;
-  border: 2px solid var(--input-disabled-border-color);
+  border: 1px solid transparent;
   cursor: not-allowed;
 }
 
@@ -229,39 +216,24 @@
 .annotationLayer .choiceWidgetAnnotation select:hover,
 .annotationLayer .buttonWidgetAnnotation.checkBox input:hover,
 .annotationLayer .buttonWidgetAnnotation.radioButton input:hover {
-  border: 2px solid var(--input-hover-border-color);
-}
-.annotationLayer .textWidgetAnnotation input:hover,
-.annotationLayer .textWidgetAnnotation textarea:hover,
-.annotationLayer .choiceWidgetAnnotation select:hover,
-.annotationLayer .buttonWidgetAnnotation.checkBox input:hover {
-  border-radius: 2px;
+  border: 1px solid rgba(0, 0, 0, 1);
 }
 
 .annotationLayer .textWidgetAnnotation input:focus,
 .annotationLayer .textWidgetAnnotation textarea:focus,
 .annotationLayer .choiceWidgetAnnotation select:focus {
   background: none;
-  border: 2px solid var(--input-focus-border-color);
-  border-radius: 2px;
-  outline: var(--input-focus-outline);
+  border: 1px solid transparent;
 }
 
+.annotationLayer .textWidgetAnnotation input :focus,
+.annotationLayer .textWidgetAnnotation textarea :focus,
+.annotationLayer .choiceWidgetAnnotation select :focus,
 .annotationLayer .buttonWidgetAnnotation.checkBox :focus,
 .annotationLayer .buttonWidgetAnnotation.radioButton :focus {
   background-image: none;
   background-color: transparent;
-}
-
-.annotationLayer .buttonWidgetAnnotation.checkBox :focus {
-  border: 2px solid var(--input-focus-border-color);
-  border-radius: 2px;
-  outline: var(--input-focus-outline);
-}
-
-.annotationLayer .buttonWidgetAnnotation.radioButton :focus {
-  border: 2px solid var(--input-focus-border-color);
-  outline: var(--input-focus-outline);
+  outline: auto;
 }
 
 .annotationLayer .buttonWidgetAnnotation.checkBox input:checked:before,
@@ -415,20 +387,12 @@
 
 :root {
   --xfa-unfocused-field-background: url("data:image/svg+xml;charset=UTF-8,<svg width='1px' height='1px' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill:rgba(0, 54, 255, 0.13);'/></svg>");
-  --xfa-focus-outline: auto;
 }
 
 @media (forced-colors: active) {
-  :root {
-    --xfa-focus-outline: 2px solid CanvasText;
-  }
   .xfaLayer *:required {
     outline: 1.5px solid selectedItem;
   }
-}
-
-.xfaLayer {
-  background-color: transparent;
 }
 
 .xfaLayer .highlight {
@@ -456,6 +420,14 @@
 
 .xfaLayer .highlight.selected {
   background-color: rgba(203, 223, 203, 1);
+}
+
+.xfaLayer ::-moz-selection {
+  background: rgba(0, 0, 255, 1);
+}
+
+.xfaLayer ::selection {
+  background: rgba(0, 0, 255, 1);
 }
 
 .xfaPage {
@@ -600,13 +572,13 @@
 .xfaSelect:focus {
   background-image: none;
   background-color: transparent;
-  outline: var(--xfa-focus-outline);
+  outline: auto;
   outline-offset: -1px;
 }
 
 .xfaCheckbox:focus,
 .xfaRadio:focus {
-  outline: var(--xfa-focus-outline);
+  outline: auto;
 }
 
 .xfaTextfield,
@@ -617,12 +589,6 @@
   border: none;
   resize: none;
   background-image: var(--xfa-unfocused-field-background);
-}
-
-.xfaSelect {
-  padding-left: 2px;
-  padding-right: 2px;
-  padding-inline: 2px;
 }
 
 .xfaTop > .xfaTextfield,
@@ -761,8 +727,7 @@
   --hover-outline: dashed 2px blue;
   --freetext-line-height: 1.35;
   --freetext-padding: 2px;
-  --editorFreeText-editing-cursor: text;
-  --editorInk-editing-cursor: url(images/cursor-editorInk.svg) 0 16, pointer;
+  --editorInk-editing-cursor: url(images/toolbarButton-editorInk.svg) 0 16;
 }
 
 @media (forced-colors: active) {
@@ -789,16 +754,6 @@
   left: 0;
   font-size: calc(100px * var(--scale-factor));
   transform-origin: 0 0;
-  cursor: auto;
-  z-index: 20000;
-}
-
-.annotationEditorLayer.freeTextEditing {
-  cursor: var(--editorFreeText-editing-cursor);
-}
-
-.annotationEditorLayer.inkEditing {
-  cursor: var(--editorInk-editing-cursor);
 }
 
 .annotationEditorLayer .selectedEditor {
@@ -817,7 +772,6 @@
   z-index: 1;
   transform-origin: 0 0;
   touch-action: none;
-  cursor: auto;
 }
 
 .annotationEditorLayer .freeTextEditor .internal {
@@ -882,7 +836,7 @@
 
 .annotationEditorLayer .inkEditor.editing {
   resize: none;
-  cursor: inherit;
+  cursor: var(--editorInk-editing-cursor), pointer;
 }
 
 .annotationEditorLayer .inkEditor .inkEditorCanvas {
@@ -1057,13 +1011,15 @@
   --sidebar-width: 200px;
   --sidebar-transition-duration: 200ms;
   --sidebar-transition-timing-function: ease;
-  --scale-select-width: 140px;
+  --scale-select-container-width: 140px;
+  --scale-select-overflow: 22px;
 
   --toolbar-icon-opacity: 0.7;
   --doorhanger-icon-opacity: 0.9;
 
   --main-color: rgba(12, 12, 13, 1);
   --body-bg-color: rgba(237, 237, 240, 1);
+  --errorWrapper-bg-color: rgba(255, 110, 110, 1);
   --progressBar-percent: 0%;
   --progressBar-end-offset: 0;
   --progressBar-color: rgba(10, 132, 255, 1);
@@ -1078,18 +1034,11 @@
   --sidebar-toolbar-bg-color: rgba(245, 246, 247, 1);
   --toolbar-bg-color: rgba(249, 249, 250, 1);
   --toolbar-border-color: rgba(204, 204, 204, 1);
-  --toolbar-box-shadow: 0 1px 0 var(--toolbar-border-color);
-  --toolbar-border-bottom: none;
-  --toolbarSidebar-box-shadow: inset calc(-1px * var(--dir-factor)) 0 0
-      rgba(0, 0, 0, 0.25),
-    0 1px 0 rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1);
-  --toolbarSidebar-border-bottom: none;
   --button-hover-color: rgba(221, 222, 223, 1);
   --toggled-btn-color: rgba(0, 0, 0, 1);
   --toggled-btn-bg-color: rgba(0, 0, 0, 0.3);
   --toggled-hover-active-btn-color: rgba(0, 0, 0, 0.4);
   --dropdown-btn-bg-color: rgba(215, 215, 219, 1);
-  --dropdown-btn-border: none;
   --separator-color: rgba(0, 0, 0, 0.3);
   --field-color: rgba(6, 6, 6, 1);
   --field-bg-color: rgba(255, 255, 255, 1);
@@ -1104,7 +1053,7 @@
   --doorhanger-hover-color: rgba(12, 12, 13, 1);
   --doorhanger-hover-bg-color: rgba(237, 237, 237, 1);
   --doorhanger-separator-color: rgba(222, 222, 222, 1);
-  --dialog-button-border: none;
+  --dialog-button-border: 0 none;
   --dialog-button-bg-color: rgba(12, 12, 13, 0.1);
   --dialog-button-hover-bg-color: rgba(12, 12, 13, 0.3);
 
@@ -1157,6 +1106,7 @@
   :root {
     --main-color: rgba(249, 249, 250, 1);
     --body-bg-color: rgba(42, 42, 46, 1);
+    --errorWrapper-bg-color: rgba(169, 14, 14, 1);
     --progressBar-color: rgba(0, 96, 223, 1);
     --progressBar-indeterminate-bg-color: rgba(40, 40, 43, 1);
     --progressBar-indeterminate-blend-color: rgba(20, 68, 133, 1);
@@ -1205,9 +1155,6 @@
     --toolbar-icon-opacity: 1;
     --toolbar-icon-bg-color: ButtonText;
     --toolbar-icon-hover-bg-color: ButtonFace;
-    --toolbar-border-color: CanvasText;
-    --toolbar-border-bottom: 1px solid var(--toolbar-border-color);
-    --toolbar-box-shadow: none;
     --toggled-btn-color: HighlightText;
     --toggled-btn-bg-color: LinkText;
     --doorhanger-hover-color: ButtonFace;
@@ -1216,13 +1163,7 @@
     --dialog-button-border: 1px solid Highlight;
     --dialog-button-hover-bg-color: Highlight;
     --dialog-button-hover-color: ButtonFace;
-    --dropdown-btn-border: 1px solid ButtonText;
     --field-border-color: ButtonText;
-    --main-color: CanvasText;
-    --separator-color: GrayText;
-    --doorhanger-separator-color: GrayText;
-    --toolbarSidebar-box-shadow: none;
-    --toolbarSidebar-border-bottom: 1px solid var(--toolbar-border-color);
   }
 }
 
@@ -1239,6 +1180,14 @@ body {
 
 body {
   background-color: var(--body-bg-color);
+}
+
+body,
+input,
+button,
+select {
+  font: message-box;
+  outline: none;
   scrollbar-color: var(--scrollbar-color) var(--scrollbar-bg-color);
 }
 
@@ -1329,7 +1278,6 @@ body {
   width: var(--sidebar-width);
   visibility: hidden;
   z-index: 100;
-  font: message-box;
   border-top: 1px solid rgba(51, 51, 51, 1);
   -webkit-border-end: var(--doorhanger-border-color-whcm);
           border-inline-end: var(--doorhanger-border-color-whcm);
@@ -1421,27 +1369,6 @@ body {
   right: 0;
   z-index: 9999;
   cursor: default;
-  font: message-box;
-}
-
-.toolbar input,
-.toolbar button,
-.toolbar select,
-.secondaryToolbar input,
-.secondaryToolbar button,
-.secondaryToolbar a,
-.secondaryToolbar select,
-.editorParamsToolbar input,
-.editorParamsToolbar button,
-.editorParamsToolbar select,
-.findbar input,
-.findbar button,
-.findbar select,
-#sidebarContainer input,
-#sidebarContainer button,
-#sidebarContainer select {
-  outline: none;
-  font: message-box;
 }
 
 #toolbarContainer {
@@ -1452,8 +1379,8 @@ body {
   width: 100%;
   height: 32px;
   background-color: var(--sidebar-toolbar-bg-color);
-  box-shadow: var(--toolbarSidebar-box-shadow);
-  border-bottom: var(--toolbarSidebar-border-bottom);
+  box-shadow: inset calc(-1px * var(--dir-factor)) 0 0 rgba(0, 0, 0, 0.25),
+    0 1px 0 rgba(0, 0, 0, 0.15), 0 0 1px rgba(0, 0, 0, 0.1);
 }
 
 [dir="ltr"] #sidebarResizer {
@@ -1481,8 +1408,7 @@ body {
   position: relative;
   height: 32px;
   background-color: var(--toolbar-bg-color);
-  box-shadow: var(--toolbar-box-shadow);
-  border-bottom: var(--toolbar-border-bottom);
+  box-shadow: 0 1px 0 var(--toolbar-border-color);
 }
 
 #toolbarViewer {
@@ -1543,6 +1469,15 @@ body {
   transition: transform 200ms;
 }
 
+@-webkit-keyframes progressIndeterminate {
+  0% {
+    transform: translateX(-142px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 @keyframes progressIndeterminate {
   0% {
     transform: translateX(-142px);
@@ -1573,7 +1508,8 @@ body {
     var(--progressBar-color) 95px,
     var(--progressBar-indeterminate-blend-color) 100px
   );
-  animation: progressIndeterminate 1s linear infinite;
+  -webkit-animation: progressIndeterminate 1s linear infinite;
+          animation: progressIndeterminate 1s linear infinite;
 }
 
 #outerContainer.sidebarResizing #sidebarContainer,
@@ -1588,11 +1524,10 @@ body {
 .editorParamsToolbar {
   top: 32px;
   position: absolute;
-  z-index: 30000;
+  z-index: 10000;
   height: auto;
   padding: 0 4px;
   margin: 4px 2px;
-  font: message-box;
   font-size: 12px;
   line-height: 14px;
   text-align: left;
@@ -1687,6 +1622,7 @@ body {
   padding: 6px 0 10px;
   inset-inline-end: 4px;
   height: auto;
+  z-index: 30000;
   background-color: var(--doorhanger-bg-color);
 }
 
@@ -2004,11 +1940,10 @@ body {
 .toolbarButton,
 .secondaryToolbarButton,
 .dialogButton {
-  border: none;
+  border: 0 none;
   background: none;
   width: 28px;
   height: 28px;
-  outline: none;
 }
 
 .dialogButton:hover,
@@ -2118,45 +2053,44 @@ body {
 }
 
 .dropdownToolbarButton {
-  width: var(--scale-select-width);
+  width: var(--scale-select-container-width);
   padding: 0;
+  overflow: hidden;
   background-color: var(--dropdown-btn-bg-color);
-  border: var(--dropdown-btn-border);
 }
 [dir="ltr"] .dropdownToolbarButton::after {
-  right: 6px;
+  right: 7px;
 }
 [dir="rtl"] .dropdownToolbarButton::after {
-  left: 6px;
+  left: 7px;
 }
 .dropdownToolbarButton::after {
   top: 6px;
-  inset-inline-end: 6px;
+  inset-inline-end: 7px;
   pointer-events: none;
   -webkit-mask-image: var(--toolbarButton-menuArrow-icon);
           mask-image: var(--toolbarButton-menuArrow-icon);
 }
 
 [dir="ltr"] .dropdownToolbarButton > select {
-  padding-left: 6px;
+  padding-left: 4px;
 }
 
 [dir="rtl"] .dropdownToolbarButton > select {
-  padding-right: 6px;
+  padding-right: 4px;
 }
 
 .dropdownToolbarButton > select {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  width: inherit;
+  width: calc(
+    var(--scale-select-container-width) + var(--scale-select-overflow)
+  );
   height: 28px;
   font-size: 12px;
   color: var(--main-color);
   margin: 0;
   padding: 1px 0 2px;
-  -webkit-padding-start: 6px;
-          padding-inline-start: 6px;
+  -webkit-padding-start: 4px;
+          padding-inline-start: 4px;
   border: none;
   background-color: var(--dropdown-btn-bg-color);
 }
@@ -2268,7 +2202,8 @@ body {
           mask-image: var(--toolbarButton-zoomIn-icon);
 }
 
-#presentationMode::before {
+#presentationMode::before,
+#secondaryPresentationMode::before {
   -webkit-mask-image: var(--toolbarButton-presentationMode-icon);
           mask-image: var(--toolbarButton-presentationMode-icon);
 }
@@ -2302,7 +2237,7 @@ body {
 }
 
 a.secondaryToolbarButton {
-  padding-top: 5px;
+  padding-top: 6px;
   text-decoration: none;
 }
 a.toolbarButton[href="#"],
@@ -2311,7 +2246,8 @@ a.secondaryToolbarButton[href="#"] {
   pointer-events: none;
 }
 
-#viewBookmark::before {
+#viewBookmark::before,
+#secondaryViewBookmark::before {
   -webkit-mask-image: var(--toolbarButton-bookmark-icon);
           mask-image: var(--toolbarButton-bookmark-icon);
 }
@@ -2349,18 +2285,18 @@ a.secondaryToolbarButton[href="#"] {
 }
 
 [dir="ltr"] .pdfSidebarNotification::after {
-  right: 2px;
+  left: 17px;
 }
 
 [dir="rtl"] .pdfSidebarNotification::after {
-  left: 2px;
+  right: 17px;
 }
 
 .pdfSidebarNotification::after {
   position: absolute;
   display: inline-block;
-  top: 2px;
-  inset-inline-end: 2px;
+  top: 1px;
+  inset-inline-start: 17px;
   /* Create a filled circle, with a diameter of 9 pixels, using only CSS: */
   content: "";
   background-color: rgba(112, 219, 85, 1);
@@ -2399,7 +2335,6 @@ a.secondaryToolbarButton[href="#"] {
   white-space: normal;
   border-radius: 0;
   box-sizing: border-box;
-  display: inline-block;
 }
 [dir="ltr"] .secondaryToolbarButton > span {
   padding-right: 4px;
@@ -2508,7 +2443,7 @@ a.secondaryToolbarButton[href="#"] {
   color: var(--field-color);
   font-size: 12px;
   line-height: 16px;
-  outline: none;
+  outline-style: none;
 }
 
 [dir="ltr"] .toolbarField[type="checkbox"] {
@@ -2778,6 +2713,45 @@ a:focus > .thumbnail > .thumbnailSelectionRing,
   color: var(--treeitem-hover-color);
 }
 
+/* TODO: file FF bug to support ::-moz-selection:window-inactive
+   so we can override the opaque grey background when the window is inactive;
+   see https://bugzilla.mozilla.org/show_bug.cgi?id=706209 */
+::-moz-selection {
+  background: rgba(0, 0, 255, 0.3);
+}
+::selection {
+  background: rgba(0, 0, 255, 0.3);
+}
+
+#errorWrapper {
+  background-color: var(--errorWrapper-bg-color);
+  color: var(--main-color);
+  left: 0;
+  position: absolute;
+  right: 0;
+  z-index: 1000;
+  padding: 3px 6px;
+}
+
+#errorMessageLeft {
+  float: left;
+}
+#errorMessageRight {
+  float: right;
+}
+
+#errorSpacer {
+  clear: both;
+}
+#errorMoreInfo {
+  background-color: var(--field-bg-color);
+  color: var(--field-color);
+  border: 1px solid var(--field-border-color);
+  padding: 3px;
+  margin: 3px;
+  width: 98%;
+}
+
 .dialogButton {
   width: auto;
   margin: 3px 4px 2px !important;
@@ -2792,7 +2766,6 @@ dialog {
   padding: 15px;
   border-spacing: 4px;
   color: var(--main-color);
-  font: message-box;
   font-size: 12px;
   line-height: 14px;
   background-color: var(--doorhanger-bg-color);
@@ -2869,6 +2842,7 @@ dialog :link {
 }
 
 .grab-to-pan-grab {
+  cursor: -webkit-grab !important;
   cursor: grab !important;
 }
 .grab-to-pan-grab
@@ -2877,6 +2851,7 @@ dialog :link {
 }
 .grab-to-pan-grab:active,
 .grab-to-pan-grabbing {
+  cursor: -webkit-grabbing !important;
   cursor: grabbing !important;
   position: fixed;
   background: rgba(0, 0, 0, 0);
@@ -2949,7 +2924,8 @@ dialog :link {
 }
 
 .visibleLargeView,
-.visibleMediumView {
+.visibleMediumView,
+.visibleSmallView {
   display: none;
 }
 
@@ -3000,6 +2976,9 @@ dialog :link {
   .hiddenSmallView,
   .hiddenSmallView * {
     display: none;
+  }
+  .visibleSmallView {
+    display: inherit;
   }
   .toolbarButtonSpacer {
     width: 0;
